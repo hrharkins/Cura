@@ -211,7 +211,7 @@ class SceneView(openglGui.glGuiPanel):
 	def showLoadModel(self, button = 1):
 		if button == 1:
 			dlg=wx.FileDialog(self, _("Open 3D model"), os.path.split(profile.getPreference('lastFile'))[0], style=wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
-			dlg.SetWildcard(meshLoader.loadWildcardFilter() + imageToMesh.wildcardList() + "|GCode file (*.gcode)|*.g;*.gcode;*.G;*.GCODE")
+			dlg.SetWildcard(meshLoader.loadWildcardFilter() + imageToMesh.wildcardList() + "|GCode file (*.gcode)|*.g;*.gcode;*.G;*.GCODE|Zip file (*.zip)|*.zip")
 			if dlg.ShowModal() != wx.ID_OK:
 				dlg.Destroy()
 				return
