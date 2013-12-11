@@ -9,6 +9,8 @@ import traceback
 import threading
 import math
 import platform
+import zipfile
+import tempfile
 
 import OpenGL
 OpenGL.ERROR_CHECKING = False
@@ -171,7 +173,15 @@ class SceneView(openglGui.glGuiPanel):
 			# pop first entry for processing and append new files at end
 			while filenames:
 				filename = filenames.pop(0)
-				if os.path.isdir(filename):
+				if filename.endswith('.zip'):
+					# Unpack zip, load all contained files.
+					destdir = tempfile.mkdtemp()
+					with zipfile.ZipFile(filename) as zipper:
+						zipper.extractall(destdir)
+					self.loadFiles([destdir])
+					# TODO: Cleanup (needs to be done safely)
+					continue
+				elif os.path.isdir(filename):
 					# directory: queue all included files and directories
 					filenames.extend(os.path.join(filename, f) for f in os.listdir(filename))
 				else:
